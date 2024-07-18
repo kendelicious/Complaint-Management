@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICCT Complaints Management System</title>
+  <link rel="stylesheet" href="https://kit.fontawesome.com/3fea454cc6.css" crossorigin="anonymous">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(201, 7, 107, 0.8);
+    }
+    .container {
+      position: relative;
+      max-width: 430px;
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 30px;
+    }
+    .title {
+      font-size: 52px;
+      font-weight: 600;
+      color: rgba(201, 7, 107, 0.8);
+      margin-bottom: 20px;
+    }
+    .title::before {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 37px;
+      background-color: #ccc;
+      border-radius: 25px;
+      margin-bottom: 20px;
+    }
+    .input-field {
+      position: relative;
+      margin-top: 20px;
+    }
+    .input-field input {
+      width: 100%;
+      padding: 15px 35px 15px 15px;
+      border: none;
+      outline: none;
+      border-bottom: 2px solid #ccc;
+      transition: all 0.2s ease;
+    }
+    .input-field input:focus {
+      border-bottom-color: rgba(201, 7, 107, 0.8);
+    }
+    .input-field i {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 20px;
+      transition: all 0.2s ease;
+    }
+    .input-field input:focus + i {
+      color: rgba(201, 7, 107, 0.8);
+    }
+    .links {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    .form a {
+      color: rgba(201, 7, 107, 0.8);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .form a:hover {
+      text-decoration: underline;
+    }
+    .btn {
+      margin-top: 35px;
+      width: 100%;
+      background-color: rgba(201, 7, 107, 0.8);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      font-size: 22px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background-color: rgba(249, 10, 133, 0.8);
+    }
+    #complaintForm, #submittedComplaint {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Welcome to ICCT Complaints Management System</h2>
+    <div class="forms">
+      <div class="form login">
+        <span class="title">Login</span>
+        <form id="loginForm">
+          <div class="input-field">
+            <input type="text" name="username" id="loginUsername" placeholder="Enter your username" required>
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="input-field">
+            <input type="password" name="password" id="loginPassword" placeholder="Enter your password" required>
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="links">
+            Don't have an account? <a href="#" class="text" onclick="showSignupForm()">Sign up</a>
+          </div>
+          <div class="input-field btn">
+            <input type="button" class="btn" value="Log in" onclick="login()">
+          </div>
+        </form>
+      </div>
+      <div class="form signup" style="display:none;">
+        <span class="title">Signup</span>
+        <form id="signupForm">
+          <div class="input-field">
+            <input type="text" name="username" id="signupUsername" placeholder="Enter your username" required>
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="input-field">
+            <input type="number" name="number" id="signupNumber" placeholder="Enter your number" required>
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="input-field">
+            <input type="email" name="email" id="signupEmail" placeholder="Enter your email" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="input-field">
+            <input type="password" name="password" id="signupPassword" placeholder="Enter your password" required>
+            <i class="fas fa-lock"></i>
+          </div>
+          <div>
+            <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
+            <label for="showPassword">Show Password</label>
+          </div>
+          <div class="links">
+            Already have an account? <a href="#" class="text" onclick="showLoginForm()">Sign in</a>
+          </div>
+          <div class="input-field btn">
+            <input type="button" class="btn" value="Sign up" onclick="signup()">
+          </div>
+        </form>
+      </div>
+    </div>
+    <form id="complaintForm">
+      <div class="form-group">
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" name="studentId" required readonly>
+      </div>
+      <div class="form-group">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required readonly>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required readonly>
+      </div>
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="complaintText">Complaint:</label>
+        <textarea id="complaintText" name="complaintText" required></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="submittedComplaint">
+      <hr>
+      <h3>Submitted Complaint:</h3>
+      <p><strong>Student ID:</strong> <span id="submittedStudentId"></span></p>
+      <p><strong>Full Name:</strong> <span id="submittedFullName"></span></p>
+      <p><strong>Email Address:</strong> <span id="submittedEmail"></span></p>
+      <p><strong>Date:</strong> <span id="submittedDate"></span></p>
+      <p><strong>Complaint:</strong></p>
+      <p id="submittedComplaintText"></p>
+      <button class="btn" onclick="logout()">Log out</button>
+    </div>
+  </div>
+
+  <script>
+    var users = [];
+
+    function showSignupForm() {
+      document.querySelector('.form.login').style.display = 'none';
+      document.querySelector('.form.signup').style.display = 'block';
+    }
+
+    function showLoginForm() {
+      document.querySelector('.form.signup').style.display = 'none';
+      document.querySelector('.form.login').style.display = 'block';
+    }
+
+    function togglePasswordVisibility() {
+      var passwordField = document.getElementById('signupPassword');
+      var showPasswordCheckbox = document.getElementById('showPassword');
+      if (showPasswordCheckbox.checked) {
+        passwordField.type = 'text';
+      } else {
+        passwordField.type = 'password';
+      }
+    }
+
+    function signup() {
+      var username = document.getElementById('signupUsername').value;
+      var number = document.getElementById('signupNumber').value;
+      var email = document.getElementById('signupEmail').value;
+      var password = document.getElementById('signupPassword').value;
+
+      // Check if username already exists
+      if (users.find(user => user.username === username)) {
+        alert('Username already exists. Please choose a different username.');
+        return;
+      }
+
+      users.push({ username: username, number: number, email: email, password: password });
+      alert('Signup successful! Please log in.');
+      showLoginForm();
+    }
+
+    function login() {
+      var username = document.getElementById('loginUsername').value;
+      var password = document.getElementById('loginPassword').value;
+
+      var user = users.find(user => user.username === username && user.password === password);
+
+      if (user) {
+        document.querySelector('.forms').style.display = 'none';
+        document.getElementById('complaintForm').style.display = 'block';
+        document.getElementById('studentId').value = user.number;
+        document.getElementById('fullName').value = user.username;
+        document.getElementById('email').value = user.email;
+      } else {
+        alert('Invalid username or password!');
+      }
+    }
+
+    function logout() {
+      document.getElementById('complaintForm').reset(); // Reset the complaint form
+      document.getElementById('submittedComplaint').style.display = 'none'; // Hide the submitted complaint section
+      document.getElementById('complaintForm').style.display = 'none'; // Hide the complaint form
+      document.querySelector('.forms').style.display = 'block'; // Show the forms container
+      showLoginForm(); // Show the login form explicitly
+    }
+
+    document.getElementById('complaintForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      // Get form values
+      var studentId = document.getElementById('studentId').value;
+      var fullName = document.getElementById('fullName').value;
+      var email = document.getElementById('email').value;
+      var date = document.getElementById('date').value;
+      var complaintText = document.getElementById('complaintText').value;
+
+      // Display submitted information
+      document.getElementById('submittedStudentId').textContent = studentId;
+      document.getElementById('submittedFullName').textContent = fullName;
+      document.getElementById('submittedEmail').textContent = email;
+      document.getElementById('submittedDate').textContent = date;
+      document.getElementById('submittedComplaintText').textContent = complaintText;
+
+      // Show the submitted complaint section
+      document.getElementById('submittedComplaint').style.display = 'block';
+
+      // Simulate sending email to user (display alert)
+      var userMessage = `Dear ${fullName},\n\nThank you for submitting your complaint to ICCT. Below is the summary of your complaint:\n\nStudent ID: ${studentId}\nFull Name: ${fullName}\nEmail Address: ${email}\nDate: ${date}\nComplaint: ${complaintText}\n\nWe will review your complaint and respond shortly. Make sure that your email address is correct.\n\nBest regards,\nICCT Complaint Management Team`;
+      alert(userMessage);
+
+      // Simulate notifying staff (display alert)
+      var staffMessage = `New Complaint Submitted:\n\nStudent ID: ${studentId}\nFull Name: ${fullName}\nEmail Address: ${email}\nDate: ${date}\nComplaint: ${complaintText}`;
+      alert(staffMessage);
+
+      // Reset the form after submission (optional)
+      document.getElementById('complaintForm').reset();
+    });
+  </script>
+</body>
+</html>

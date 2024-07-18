@@ -89,29 +89,23 @@
 
     }
 
-    .input-field {
-
-      position: relative;
-
-      margin-top: 20px;
-
-    }
-
-    .input-field input {
-
-      width: 100%;
-
-      padding: 15px 35px 15px 15px;
-
-      border: none;
-
-      outline: none;
-
-      border-bottom: 2px solid #ccc;
-
-      transition: all 0.2s ease;
-
-    }
+  .form .input-field{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 30px;
+  }
+  .input-field input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
 
       .input-field input:is(:focus, :valid){
     border-bottom-color: rgba(0, 0, 0, 0.8);
